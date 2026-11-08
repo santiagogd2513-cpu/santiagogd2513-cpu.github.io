@@ -6,6 +6,7 @@
 <title>Taller Nocturno · Apps para Android y PC</title>
 <meta name="description" content="Apps gratis, sin anuncios y en español: Ventoy no oficial, Forja, Bóveda, Nocturna, Limbo para Bóveda, Arnis no oficial y Amatista Launcher.">
 <meta name="theme-color" content="#07090f">
+<meta name="color-scheme" content="dark">
 <meta property="og:title" content="Taller Nocturno">
 <meta property="og:description" content="Apps gratis, sin anuncios y en español para Android y PC.">
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
@@ -21,9 +22,10 @@
   --dim: #6c7694;
   --accent: #7c8cff;
   --radius: 22px;
+  color-scheme: dark;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
   background: var(--bg);
@@ -52,10 +54,7 @@ header.hero { padding-top: 48px; padding-bottom: 28px; }
 .brand { display: flex; align-items: center; gap: 14px; }
 .brand img { width: 52px; height: 52px; border-radius: 15px; box-shadow: 0 8px 30px rgba(124,140,255,.35); }
 .brand h1 { margin: 0; font-size: clamp(28px, 7vw, 42px); line-height: 1.05; letter-spacing: -.02em; }
-.brand h1 span {
-  background: linear-gradient(90deg, #8fd3ff, #7c8cff 45%, #c08bff);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
+.brand h1 span { color: #a3b1ff; }
 .tagline { margin: 18px 0 0; color: var(--sub); font-size: clamp(16px, 4.2vw, 19px); max-width: 640px; }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .pill {
@@ -72,7 +71,8 @@ nav.cats {
 nav.cats .wrap { display: flex; gap: 8px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
 nav.cats .wrap::-webkit-scrollbar { display: none; }
 nav.cats a {
-  flex: none; text-decoration: none; font-size: 14.5px; font-weight: 600;
+  flex: none; text-decoration: none; font-size: 14.5px; font-weight: 600; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
   padding: 8px 14px; border-radius: 999px; color: var(--sub);
   background: var(--card); border: 1px solid var(--line);
   transition: color .15s, border-color .15s, background .15s;
@@ -80,7 +80,9 @@ nav.cats a {
 nav.cats a:hover, nav.cats a.on { color: var(--text); border-color: var(--c, var(--accent)); background: color-mix(in srgb, var(--c, var(--accent)) 16%, var(--card)); }
 
 /* categorías */
-section.cat { padding: 40px 0 8px; }
+section.cat { padding: 28px 0 8px; display: none; }
+section.cat.on { display: block; animation: entra .22s ease-out; }
+@keyframes entra { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 .cat-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
 .cat-ico {
   width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 21px;
@@ -328,17 +330,34 @@ document.getElementById('main').innerHTML = CATS.map(c => `
     <div class="grid">${c.apps.map(tarjeta).join('')}</div>
   </section>`).join('');
 
-// marca en el menú la categoría que se está viendo
-const links = [...document.querySelectorAll('nav.cats a')];
-const obs = new IntersectionObserver(es => es.forEach(e => {
-  if (!e.isIntersecting) return;
+// pestañas: solo se ve la categoría elegida (también se puede enlazar, p. ej. #mundos)
+const nav = document.querySelector('nav.cats');
+const barra = document.getElementById('nav');
+const links = [...barra.querySelectorAll('a')];
+function mostrar(id, alTocar) {
+  if (!CATS.some(c => c.id === id)) id = CATS[0].id;
+  document.querySelectorAll('section.cat').forEach(s => s.classList.toggle('on', s.id === id));
   links.forEach(l => {
-    const on = l.getAttribute('href') === '#' + e.target.id;
+    const on = l.getAttribute('href') === '#' + id;
     l.classList.toggle('on', on);
-    if (on) l.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    // centra el botón en la barra moviendo solo la barra, nunca la página
+    if (on) {
+      const lr = l.getBoundingClientRect(), br = barra.getBoundingClientRect();
+      barra.scrollTo({ left: barra.scrollLeft + lr.left - br.left - (br.width - lr.width) / 2, behavior: alTocar ? 'smooth' : 'auto' });
+    }
   });
-}), { rootMargin: '-40% 0px -55% 0px' });
-document.querySelectorAll('section.cat').forEach(s => obs.observe(s));
+  // si ya se había bajado, vuelve al inicio de la categoría
+  const tope = document.querySelector('header.hero').offsetHeight;
+  if (alTocar && window.scrollY > tope) window.scrollTo(0, tope);
+}
+links.forEach(l => l.addEventListener('click', e => {
+  e.preventDefault();
+  const id = l.getAttribute('href').slice(1);
+  history.replaceState(null, '', '#' + id);
+  mostrar(id, true);
+}));
+addEventListener('hashchange', () => mostrar(location.hash.slice(1), true));
+mostrar(location.hash.slice(1), false);
 
 // pone al día versión, fecha, tamaño y enlace con la última publicación de cada app
 async function actualizar() {
