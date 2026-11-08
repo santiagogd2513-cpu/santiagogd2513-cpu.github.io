@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Taller Nocturno · Apps para Android y PC</title>
+<meta name="description" content="Apps gratis, sin anuncios y en español: Ventoy no oficial, Forja, Bóveda, Nocturna, Limbo para Bóveda, Arnis no oficial y Amatista Launcher.">
+<meta name="theme-color" content="#07090f">
+<meta property="og:title" content="Taller Nocturno">
+<meta property="og:description" content="Apps gratis, sin anuncios y en español para Android y PC.">
+<link rel="icon" href="img/logo.svg" type="image/svg+xml">
+<style>
+:root {
+  --bg: #07090f;
+  --bg2: #0c1020;
+  --card: #111628;
+  --card2: #151b31;
+  --line: #222b45;
+  --text: #eef1fa;
+  --sub: #9aa4c0;
+  --dim: #6c7694;
+  --accent: #7c8cff;
+  --radius: 22px;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  overflow-x: hidden;
+}
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(124,140,255,.18), transparent 60%),
+    radial-gradient(700px 500px at -10% 30%, rgba(70,224,208,.08), transparent 60%),
+    radial-gradient(1.2px 1.2px at 20% 18%, #fff8, transparent),
+    radial-gradient(1px 1px at 70% 40%, #fff6, transparent),
+    radial-gradient(1px 1px at 40% 70%, #fff5, transparent),
+    radial-gradient(1.4px 1.4px at 88% 82%, #bfe0ff88, transparent),
+    radial-gradient(1px 1px at 10% 90%, #fff5, transparent),
+    var(--bg);
+}
+a { color: inherit; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+/* encabezado */
+header.hero { padding-top: 48px; padding-bottom: 28px; }
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand img { width: 52px; height: 52px; border-radius: 15px; box-shadow: 0 8px 30px rgba(124,140,255,.35); }
+.brand h1 { margin: 0; font-size: clamp(28px, 7vw, 42px); line-height: 1.05; letter-spacing: -.02em; }
+.brand h1 span {
+  background: linear-gradient(90deg, #8fd3ff, #7c8cff 45%, #c08bff);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.tagline { margin: 18px 0 0; color: var(--sub); font-size: clamp(16px, 4.2vw, 19px); max-width: 640px; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.pill {
+  font-size: 13.5px; color: var(--text); padding: 6px 12px; border-radius: 999px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--line);
+}
+
+/* menú de categorías */
+nav.cats {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(7,9,15,.82); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+nav.cats .wrap { display: flex; gap: 8px; overflow-x: auto; padding-top: 10px; padding-bottom: 10px; scrollbar-width: none; }
+nav.cats .wrap::-webkit-scrollbar { display: none; }
+nav.cats a {
+  flex: none; text-decoration: none; font-size: 14.5px; font-weight: 600;
+  padding: 8px 14px; border-radius: 999px; color: var(--sub);
+  background: var(--card); border: 1px solid var(--line);
+  transition: color .15s, border-color .15s, background .15s;
+}
+nav.cats a:hover, nav.cats a.on { color: var(--text); border-color: var(--c, var(--accent)); background: color-mix(in srgb, var(--c, var(--accent)) 16%, var(--card)); }
+
+/* categorías */
+section.cat { padding: 40px 0 8px; }
+.cat-head { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
+.cat-ico {
+  width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; font-size: 21px;
+  background: color-mix(in srgb, var(--c) 18%, transparent); border: 1px solid color-mix(in srgb, var(--c) 40%, transparent);
+}
+.cat-head h2 { margin: 0; font-size: clamp(21px, 5.4vw, 26px); letter-spacing: -.01em; }
+.cat-desc { margin: 0 0 18px; color: var(--sub); }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 16px; }
+
+/* tarjetas */
+.card {
+  position: relative; display: flex; flex-direction: column;
+  background: linear-gradient(180deg, var(--card2), var(--card));
+  border: 1px solid var(--line); border-radius: var(--radius); padding: 20px;
+  overflow: hidden;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px;
+  background: linear-gradient(90deg, var(--a1), var(--a2));
+}
+.top { display: flex; gap: 14px; align-items: center; }
+.top img { width: 62px; height: 62px; border-radius: 18px; flex: none; box-shadow: 0 6px 22px color-mix(in srgb, var(--a1) 30%, transparent); }
+.top h3 { margin: 0; font-size: 20px; line-height: 1.2; }
+.badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.badge {
+  font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 999px;
+  color: var(--sub); background: rgba(255,255,255,.05); border: 1px solid var(--line);
+}
+.badge.no { color: #ffd38a; border-color: #5a4520; background: rgba(255,200,90,.08); }
+.desc { margin: 14px 0 10px; color: #d6dbea; }
+ul.feat { margin: 0 0 16px; padding: 0; list-style: none; display: grid; gap: 6px; }
+ul.feat li { position: relative; padding-left: 22px; color: var(--sub); font-size: 14.5px; }
+ul.feat li::before {
+  content: ""; position: absolute; left: 2px; top: .55em; width: 9px; height: 9px; border-radius: 3px;
+  background: linear-gradient(135deg, var(--a1), var(--a2));
+}
+.meta { margin-top: auto; font-size: 13px; color: var(--dim); display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.meta b { color: var(--sub); font-weight: 600; }
+.dl { display: grid; gap: 8px; margin-top: 12px; }
+.dl.multi { grid-template-columns: 1fr 1fr; }
+.dl.multi .btn:first-child { grid-column: 1 / -1; }
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 10px 16px; border-radius: 14px; text-decoration: none;
+  font-weight: 700; font-size: 15.5px; color: #0a0d18;
+  background: linear-gradient(135deg, var(--a1), var(--a2));
+  transition: transform .12s, filter .12s;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: scale(.98); }
+.btn small { font-weight: 600; opacity: .7; font-size: 12.5px; }
+.btn.alt { color: var(--text); background: rgba(255,255,255,.06); border: 1px solid var(--line); font-size: 14.5px; gap: 6px; padding: 10px; white-space: nowrap; }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.foot { margin-top: 12px; font-size: 12.5px; color: var(--dim); }
+.foot a { color: var(--sub); }
+
+/* ayuda */
+.help {
+  margin: 48px 0 0; padding: 22px; border-radius: var(--radius);
+  background: var(--card); border: 1px solid var(--line);
+}
+.help h2 { margin: 0 0 12px; font-size: 20px; }
+.help ol { margin: 0; padding-left: 20px; color: var(--sub); display: grid; gap: 8px; }
+.help b { color: var(--text); }
+footer { padding-top: 36px; padding-bottom: 48px; color: var(--dim); font-size: 13.5px; text-align: center; }
+footer a { color: var(--sub); }
+@media (min-width: 720px) {
+  header.hero { padding-top: 72px; padding-bottom: 36px; }
+  .brand img { width: 64px; height: 64px; border-radius: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="hero wrap">
+  <div class="brand">
+    <img src="img/logo.svg" alt="">
+    <h1>Taller <span>Nocturno</span></h1>
+  </div>
+  <p class="tagline">Apps hechas a mano para Android y PC. Gratis, en español, en modo oscuro y <b>sin anuncios</b>.</p>
+  <div class="pills">
+    <span class="pill">🚫 Sin anuncios</span>
+    <span class="pill">🔓 Sin root</span>
+    <span class="pill">💬 En español</span>
+    <span class="pill">📦 Código abierto</span>
+  </div>
+</header>
+
+<nav class="cats" aria-label="Categorías"><div class="wrap" id="nav"></div></nav>
+
+<main class="wrap" id="main"></main>
+
+<div class="wrap">
+  <section class="help" id="instalar">
+    <h2>📲 Cómo instalar un APK</h2>
+    <ol>
+      <li>Toca <b>Descargar</b> en la app que quieras.</li>
+      <li>Abre el archivo desde las notificaciones o desde tu gestor de archivos.</li>
+      <li>Si Android pregunta, permite <b>instalar apps de esta fuente</b> (solo la primera vez).</li>
+      <li>Las apps se actualizan instalando el APK nuevo encima: no pierdes nada.</li>
+    </ol>
+  </section>
+</div>
+
+<footer class="wrap">
+  Taller Nocturno · Los proyectos «no oficial» son adaptaciones de programas libres y no están afiliados a sus autores originales; cada tarjeta da los créditos.
+  <br><a href="https://github.com/santiagogd2513-cpu">Ver en GitHub</a>
+</footer>
+
+<script>
+const GH = 'https://github.com/santiagogd2513-cpu/';
+const DL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"/></svg>';
+
+const CATS = [
+  { id: 'utilidades', icon: '🛠️', name: 'Utilidades', color: '#ff8a3d',
+    desc: 'Herramientas para memorias USB y discos, directo desde el celular por OTG.',
+    apps: ['ventoy', 'forja'] },
+  { id: 'archivos', icon: '📁', name: 'Archivos e internet', color: '#4c9dff',
+    desc: 'Para el día a día: manejar tus archivos y navegar.',
+    apps: ['boveda', 'nocturna'] },
+  { id: 'emulacion', icon: '🖥️', name: 'Emulación', color: '#5ef0c0',
+    desc: 'Corre sistemas operativos de PC dentro del celular.',
+    apps: ['limbo'] },
+  { id: 'mundos', icon: '🌍', name: 'Generación de mundos de Minecraft', color: '#6fd36f',
+    desc: 'Herramientas para crear mundos de Minecraft a partir del mundo real.',
+    apps: ['arnis'] },
+  { id: 'minecraft', icon: '🎮', name: 'Minecraft', color: '#b47cff',
+    desc: 'Para jugar Minecraft Java a tu manera.',
+    apps: ['amatista'] },
+];
+
+// tag/fecha/tamaño de respaldo: la página los actualiza sola con la última versión de GitHub.
+const APPS = {
+  ventoy: {
+    name: 'Ventoy no oficial', icon: 'img/ventoy.svg', a1: '#46e0d0', a2: '#8e5bff', unofficial: true,
+    platform: 'Android',
+    desc: 'Convierte una USB en booteable para todas tus ISOs: las copias y al encender la PC eliges cuál arrancar.',
+    feat: ['Instala y actualiza Ventoy desde el celular', 'Partición en exFAT, NTFS, FAT32 o ext4', 'Actualizar no borra tus ISOs'],
+    repo: 'Minecraft', prefix: 'ventoy', tag: 'ventoy-3', date: '2026-11-08',
+    files: [{ name: 'Ventoy-no-oficial.apk', label: 'Descargar APK', size: 35776166 }],
+    src: 'Minecraft/tree/HEAD/ventoy',
+    credit: 'Adaptación de <a href="https://www.ventoy.net">Ventoy</a> de longpanda (GPLv3).'
+  },
+  forja: {
+    name: 'Forja', icon: 'img/forja.svg', a1: '#ffc857', a2: '#ff3d6e',
+    platform: 'Android',
+    desc: 'Formatea memorias USB y discos externos de 1 GB hasta 4 TB conectados al celular.',
+    feat: ['FAT32, exFAT, NTFS y ext4', 'Tabla de particiones MBR o GPT', 'Tamaño de clúster a elección'],
+    repo: 'Minecraft', prefix: 'forja', tag: 'forja-5', date: '2026-11-08',
+    files: [{ name: 'Forja.apk', label: 'Descargar APK', size: 1172588 }],
+    src: 'Minecraft/tree/HEAD/forja',
+    credit: 'NTFS con mkntfs de <a href="https://github.com/tuxera/ntfs-3g">ntfs-3g</a> (GPLv2+).'
+  },
+  boveda: {
+    name: 'Bóveda', icon: 'img/boveda.svg', a1: '#7fd4ff', a2: '#3a6cf0',
+    platform: 'Android',
+    desc: 'Gestor de archivos rápido, con tres pestañas que cambias deslizando el dedo.',
+    feat: ['USB, microSD, MediaFire y FTP', 'Miniaturas de fotos, videos y APKs', 'Progreso flotante con velocidad y tiempo'],
+    repo: 'Minecraft', prefix: 'archivos', tag: 'archivos-16', date: '2026-11-08',
+    files: [{ name: 'Boveda.apk', label: 'Descargar APK', size: 7086660 }],
+    src: 'Minecraft/tree/HEAD/archivos'
+  },
+  nocturna: {
+    name: 'Nocturna', icon: 'img/nocturna.svg', a1: '#8fd3ff', a2: '#2a4fd6',
+    platform: 'Android',
+    desc: 'Navegador oscuro y liviano con descargas rápidas de cualquier tipo de archivo.',
+    feat: ['Favoritos con su ícono', 'Descarga .apk, .jar, .zip y lo que sea', 'Descargas de GitHub con un toque'],
+    repo: 'Minecraft', prefix: 'navegador', tag: 'navegador-9', date: '2026-11-05',
+    files: [{ name: 'Nocturna.apk', label: 'Descargar APK', size: 4532452 }],
+    src: 'Minecraft/tree/HEAD/navegador'
+  },
+  limbo: {
+    name: 'Limbo para Bóveda', icon: 'img/limbo.svg', a1: '#5ef0c0', a2: '#2a9dd8', unofficial: true,
+    platform: 'Android',
+    desc: 'Emulador de PC parchado para abrir discos e ISOs desde cualquier carpeta, también desde Bóveda.',
+    feat: ['Basado en Limbo 6.0.1 con procesador qemu64', 'Acepta cualquier selector de archivos', 'Corre Linux y Windows antiguos'],
+    repo: 'Minecraft', prefix: 'limbo', tag: 'limbo-2', date: '2026-11-05',
+    files: [{ name: 'Limbo-Boveda.apk', label: 'Descargar APK', size: 28243532 }],
+    src: 'Minecraft/tree/HEAD/limbo',
+    credit: 'Parche de <a href="https://github.com/limboemu/limbo">Limbo PC Emulator</a> (GPLv2), basado en QEMU.'
+  },
+  arnis: {
+    name: 'Arnis no oficial', icon: 'img/arnis.png', a1: '#9be15d', a2: '#2fb5a3', unofficial: true,
+    platform: 'Android',
+    desc: 'Convierte cualquier lugar real del mapa en un mundo de Minecraft: calles, edificios, playas y bosques.',
+    feat: ['Eliges la zona directo en el mapa', 'Mapa nocturno con océanos, playas y ciudades', 'Genera el mundo en el celular'],
+    repo: 'Minecraft-mod', prefix: 'android', tag: 'android-12', date: '2026-11-04',
+    files: [{ name: 'Arnis-Android.apk', label: 'Descargar APK', size: 74519996 }],
+    src: 'Minecraft-mod',
+    credit: 'Adaptación de <a href="https://github.com/louis-e/arnis">Arnis</a> de louis-e (Apache 2.0).'
+  },
+  amatista: {
+    name: 'Amatista Launcher', icon: 'img/amatista.png', a1: '#d08bff', a2: '#7c4dff',
+    platform: 'Android · Windows · Linux',
+    desc: 'Launcher de Minecraft Java en español, ligero y con tema morado.',
+    feat: ['Vanilla, Forge y OptiFine', 'Inicio de sesión con Microsoft', 'Mods, shaders y modpacks de Modrinth y CurseForge'],
+    repo: 'Minecraft', prefix: 'launcher', tag: 'launcher-38', date: '2026-11-08',
+    files: [
+      { name: 'AmatistaLauncher.apk', label: 'Android', size: 156684633, prefix: 'android', tag: 'android-13', date: '2026-11-02' },
+      { name: 'AmatistaLauncher-Setup.exe', label: 'Windows', size: 2501873 },
+      { name: 'AmatistaLauncher.deb', label: 'Linux .deb', size: 4057052 },
+    ],
+    src: 'Minecraft',
+    credit: 'La versión Android parte de <a href="https://github.com/AngelAuraMC/Amethyst-Android">Amethyst</a> (PojavLauncher).'
+  },
+};
+
+const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+const fecha = s => { const [y, m, d] = s.slice(0, 10).split('-'); return `${+d} ${MESES[m - 1]} ${y}`; };
+const peso = b => b >= 1e9 ? (b / 1073741824).toFixed(1) + ' GB' : b >= 1048576 ? Math.round(b / 1048576) + ' MB' : Math.max(1, Math.round(b / 1024)) + ' KB';
+const numero = tag => +(tag.match(/(\d+)$/) || [0, 0])[1];
+const url = (app, f) => `${GH}${app.repo}/releases/download/${f.tag || app.tag}/${f.name}`;
+
+function tarjeta(id) {
+  const a = APPS[id];
+  const btns = a.files.map((f, i) =>
+    `<a class="btn${i ? ' alt' : ''}" data-app="${id}" data-file="${i}" href="${url(a, f)}">${DL_ICON}<span>${f.label}</span><small class="sz">${peso(f.size)}</small></a>`
+  ).join('');
+  return `<article class="card" style="--a1:${a.a1};--a2:${a.a2}">
+    <div class="top">
+      <img src="${a.icon}" alt="" loading="lazy">
+      <div>
+        <h3>${a.name}</h3>
+        <div class="badges">
+          <span class="badge">${a.platform}</span>
+          ${a.unofficial ? '<span class="badge no">No oficial</span>' : ''}
+        </div>
+      </div>
+    </div>
+    <p class="desc">${a.desc}</p>
+    <ul class="feat">${a.feat.map(x => `<li>${x}</li>`).join('')}</ul>
+    <div class="meta" id="meta-${id}"><span>Versión <b>#${numero(a.tag)}</b></span><span>${fecha(a.date)}</span></div>
+    <div class="dl${a.files.length > 1 ? ' multi' : ''}">${btns}</div>
+    <div class="foot">${a.credit ? a.credit + ' · ' : ''}<a href="${GH}${a.src}">Código fuente</a></div>
+  </article>`;
+}
+
+document.getElementById('nav').innerHTML = CATS.map(c =>
+  `<a href="#${c.id}" style="--c:${c.color}">${c.icon} ${c.name}</a>`).join('');
+document.getElementById('main').innerHTML = CATS.map(c => `
+  <section class="cat" id="${c.id}" style="--c:${c.color}">
+    <div class="cat-head"><div class="cat-ico">${c.icon}</div><h2>${c.name}</h2></div>
+    <p class="cat-desc">${c.desc}</p>
+    <div class="grid">${c.apps.map(tarjeta).join('')}</div>
+  </section>`).join('');
+
+// marca en el menú la categoría que se está viendo
+const links = [...document.querySelectorAll('nav.cats a')];
+const obs = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting) return;
+  links.forEach(l => {
+    const on = l.getAttribute('href') === '#' + e.target.id;
+    l.classList.toggle('on', on);
+    if (on) l.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  });
+}), { rootMargin: '-40% 0px -55% 0px' });
+document.querySelectorAll('section.cat').forEach(s => obs.observe(s));
+
+// pone al día versión, fecha, tamaño y enlace con la última publicación de cada app
+async function actualizar() {
+  const repos = [...new Set(Object.values(APPS).map(a => a.repo))];
+  for (const repo of repos) {
+    let lista;
+    try {
+      const r = await fetch(`https://api.github.com/repos/santiagogd2513-cpu/${repo}/releases?per_page=100`);
+      if (!r.ok) continue;
+      lista = await r.json();
+    } catch (e) { continue; }
+    const ultima = prefix => {
+      let mejor = null;
+      for (const rel of lista) {
+        if (rel.draft || !new RegExp('^' + prefix + '-\\d+$').test(rel.tag_name)) continue;
+        if (!mejor || numero(rel.tag_name) > numero(mejor.tag_name)) mejor = rel;
+      }
+      return mejor;
+    };
+    for (const [id, a] of Object.entries(APPS)) {
+      if (a.repo !== repo) continue;
+      const principal = ultima(a.prefix);
+      if (principal) {
+        document.getElementById('meta-' + id).innerHTML =
+          `<span>Versión <b>#${numero(principal.tag_name)}</b></span><span>${fecha(principal.published_at)}</span>`;
+      }
+      a.files.forEach((f, i) => {
+        const rel = f.prefix ? ultima(f.prefix) : principal;
+        const asset = rel && rel.assets.find(x => x.name === f.name);
+        if (!asset) return;
+        const btn = document.querySelector(`.btn[data-app="${id}"][data-file="${i}"]`);
+        btn.href = asset.browser_download_url;
+        btn.querySelector('.sz').textContent = peso(asset.size);
+      });
+    }
+  }
+}
+actualizar();
+</script>
+</body>
+</html>
