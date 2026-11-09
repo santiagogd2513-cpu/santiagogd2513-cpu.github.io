@@ -113,6 +113,33 @@ section.cat.on { display: block; animation: entra .22s ease-out; }
 }
 .cat-head h2 { margin: 0; font-size: clamp(21px, 5.4vw, 26px); letter-spacing: -.01em; }
 .cat-desc { margin: 0 0 18px; color: var(--sub); }
+.cat-sub { display: block; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--c); opacity: .85; margin-top: 2px; }
+
+/* ---- mods de Minecraft: estilo búnker militar ---- */
+section.cat.mods { position: relative; }
+section.cat.mods::before { content: ""; position: absolute; inset: 14px -4px auto; height: 10px; border-radius: 3px;
+  background: repeating-linear-gradient(-45deg, #ffc23d 0 14px, #141414 14px 28px); opacity: .9; }
+section.cat.mods::after { content: "☢"; position: absolute; right: 2%; top: 30px; font-size: 180px; line-height: 1; color: #ffc23d;
+  opacity: .05; pointer-events: none; }
+section.cat.mods .cat-head h2 { font-family: "Courier New", ui-monospace, monospace; text-transform: uppercase; letter-spacing: .06em; }
+section.cat.mods .card { border-color: color-mix(in srgb, #ffc23d 28%, var(--line)); }
+section.cat.mods .card .top img { border-radius: 14px; }
+.reqs { display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 12px; }
+.reqs span { font-size: 11.5px; font-weight: 700; letter-spacing: .04em; padding: 3px 8px; border-radius: 6px;
+  background: #1d1a10; color: #ffd36e; border: 1px solid #4a3b12; font-family: "Courier New", ui-monospace, monospace; }
+
+/* ---- mods de Bedrock: la broma ---- */
+.soon { max-width: 520px; margin: 26px auto 10px; text-align: center; padding: 34px 22px 20px; border-radius: 22px;
+  background: linear-gradient(160deg, #18201a, #0d110e); border: 1px dashed #3d5c45; position: relative; overflow: hidden; }
+.soon .blk { font-size: 54px; filter: grayscale(.2); }
+.soon h3 { margin: 10px 0 6px; font-size: clamp(26px, 7vw, 36px); letter-spacing: .18em; color: #8ff0a4;
+  font-family: "Courier New", ui-monospace, monospace; }
+.soon p { margin: 0 0 18px; color: var(--sub); }
+.soon .bar { height: 12px; border-radius: 99px; background: #0a0f0b; border: 1px solid #2a3d2f; overflow: hidden; }
+.soon .bar i { display: block; width: 0%; height: 100%; background: linear-gradient(90deg, #4fd36f, #8ff0a4); }
+.soon .pct { display: flex; justify-content: space-between; font-size: 12px; color: #5f7d66; margin-top: 6px;
+  font-family: "Courier New", ui-monospace, monospace; }
+.soon .never { margin-top: 26px; font-size: 8.5px; letter-spacing: .08em; color: #3f4a42; text-transform: lowercase; }
 .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 16px; }
 
 /* tarjetas */
@@ -264,6 +291,11 @@ const CATS = [
   { id: 'minecraft', icon: '🎮', name: 'Minecraft', color: '#b47cff',
     desc: 'Para jugar Minecraft Java a tu manera.',
     apps: ['amatista'] },
+  { id: 'mods', icon: '☢️', name: 'Mods de Minecraft', sub: 'Minecraft Java Edition', color: '#ffc23d', css: 'mods',
+    desc: 'Armas con cinemáticas de 3 minutos y medio: lanzamientos, persecuciones y explosiones que dejan cráteres de verdad. Copia el .jar en la carpeta «mods».',
+    apps: ['orbital', 'atomico'] },
+  { id: 'bedrock', icon: '🧱', name: 'Mods de Minecraft Bedrock', color: '#4fd36f', soon: true,
+    desc: '', apps: [] },
 ];
 
 // tag/fecha/tamaño de respaldo: la página los actualiza sola con la última versión de GitHub.
@@ -326,6 +358,24 @@ const APPS = {
     src: 'Minecraft-mod',
     credit: 'Adaptación de <a href="https://github.com/louis-e/arnis">Arnis</a> de louis-e (Apache 2.0).'
   },
+  orbital: {
+    name: 'Arsenal Orbital', icon: 'img/orbital.svg', a1: '#9ff0ff', a2: '#ff5ad1',
+    platform: 'Mod · Forge 1.20.1', reqs: ['MINECRAFT 1.20.1', 'FORGE 47'],
+    desc: 'Armas del espacio: un satélite, una luna de Marte, un agujero negro, una estrella hipergigante y la creación de una estrella nueva, todo sobre tu objetivo.',
+    feat: ['ÉGIDA-7, Fobos, Singularidad, Prometeo y Génesis', 'Cinemáticas de hasta 5 minutos por el universo', 'El Designador está escondido en búnkeres bajo tierra'],
+    repo: 'Minecraft', prefix: 'mod-arsenal', tag: 'mod-arsenal-27', date: '2026-11-09',
+    files: [{ name: 'ArsenalOrbital-1.20.1.jar', label: 'Descargar .jar', size: 600000 }],
+    src: 'Minecraft/tree/HEAD/mods/arsenal-orbital'
+  },
+  atomico: {
+    name: 'Arsenal Atómico', icon: 'img/atomico.svg', a1: '#ffc23d', a2: '#ff5a2e',
+    platform: 'Mod · Forge 1.20.1', reqs: ['MINECRAFT 1.20.1', 'FORGE 47'],
+    desc: 'Misiles de verdad: camiones lanzacohetes, submarinos, silos y la primera bomba nuclear, con su búnker gigante que se construye solo.',
+    feat: ['Lluvia de Acero, Cóndor Doble y Cóndor', 'Protocolo Hongo: hongo nuclear y cráter de 46 bloques', 'Búnker caminable: caseta, caracol y cuarto de control'],
+    repo: 'Minecraft', prefix: 'mod-atomico', tag: 'mod-atomico-11', date: '2026-11-09',
+    files: [{ name: 'ArsenalAtomico-1.20.1.jar', label: 'Descargar .jar', size: 590710 }],
+    src: 'Minecraft/tree/HEAD/mods/arsenal-atomico'
+  },
   amatista: {
     name: 'Amatista Launcher', icon: 'img/amatista.png', a1: '#d08bff', a2: '#7c4dff',
     platform: 'Android · Windows · Linux',
@@ -364,6 +414,7 @@ function tarjeta(id) {
         </div>
       </div>
     </div>
+    ${a.reqs ? `<div class="reqs">${a.reqs.map(x => `<span>${x}</span>`).join('')}</div>` : ''}
     <p class="desc">${a.desc}</p>
     <ul class="feat">${a.feat.map(x => `<li>${x}</li>`).join('')}</ul>
     <div class="meta" id="meta-${id}"><span>Versión <b>#${numero(a.tag)}</b></span><span>${fecha(a.date)}</span></div>
@@ -375,10 +426,17 @@ function tarjeta(id) {
 document.getElementById('nav').innerHTML = CATS.map(c =>
   `<a href="#${c.id}" style="--c:${c.color}">${c.icon} ${c.name}</a>`).join('');
 document.getElementById('main').innerHTML = CATS.map(c => `
-  <section class="cat" id="${c.id}" style="--c:${c.color}">
-    <div class="cat-head"><div class="cat-ico">${c.icon}</div><h2>${c.name}</h2></div>
-    <p class="cat-desc">${c.desc}</p>
-    <div class="grid">${c.apps.map(tarjeta).join('')}</div>
+  <section class="cat${c.css ? ' ' + c.css : ''}" id="${c.id}" style="--c:${c.color}">
+    <div class="cat-head"><div class="cat-ico">${c.icon}</div><h2>${c.name}${c.sub ? `<small class="cat-sub">${c.sub}</small>` : ''}</h2></div>
+    ${c.desc ? `<p class="cat-desc">${c.desc}</p>` : ''}
+    ${c.soon ? `<div class="soon">
+      <div class="blk">🧱⛏️</div>
+      <h3>PRÓXIMAMENTE</h3>
+      <p>Estamos trabajando muy duro para traer nuestros mods a Minecraft Bedrock.</p>
+      <div class="bar"><i></i></div>
+      <div class="pct"><span>Cargando…</span><span>0%</span></div>
+      <div class="never">nunca disponible</div>
+    </div>` : `<div class="grid">${c.apps.map(tarjeta).join('')}</div>`}
   </section>`).join('');
 
 // pestañas: solo se ve la categoría elegida (también se puede enlazar, p. ej. #mundos)
