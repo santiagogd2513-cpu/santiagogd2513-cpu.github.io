@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Taller Nocturno · Apps para Android y PC</title>
-<meta name="description" content="Apps gratis, sin anuncios y en español: Ventoy no oficial, Forja, Bóveda, Nocturna, Limbo para Bóveda, Arnis no oficial y Amatista Launcher.">
+<title>Forja Estudios · Apps para Android y PC</title>
+<meta name="description" content="Apps gratis, sin anuncios y en español: Ventoy no oficial, Yunque, Bóveda, Nocturna, Limbo para Bóveda, Arnis no oficial y Amatista Launcher.">
 <meta name="theme-color" content="#07090f">
 <meta name="color-scheme" content="dark">
-<meta property="og:title" content="Taller Nocturno">
+<meta property="og:title" content="Forja Estudios">
 <meta property="og:description" content="Apps gratis, sin anuncios y en español para Android y PC.">
 <link rel="icon" href="img/logo.svg" type="image/svg+xml">
 <style>
@@ -54,7 +54,30 @@ header.hero { padding-top: 48px; padding-bottom: 28px; }
 .brand { display: flex; align-items: center; gap: 14px; }
 .brand img { width: 52px; height: 52px; border-radius: 15px; box-shadow: 0 8px 30px rgba(124,140,255,.35); }
 .brand h1 { margin: 0; font-size: clamp(28px, 7vw, 42px); line-height: 1.05; letter-spacing: -.02em; }
-.brand h1 span { color: #a3b1ff; }
+.brand h1 span { color: #ffb15c; }
+.brand { cursor: pointer; }
+.brand img { box-shadow: 0 8px 30px rgba(255,138,61,.35); }
+.authors-line { margin: 8px 0 0; color: var(--dim); font-size: 13.5px; cursor: pointer; }
+.authors-line b { color: var(--sub); font-weight: 600; }
+.authors-line:hover { color: var(--sub); }
+dialog.studio { border: 1px solid var(--line); border-radius: 22px; padding: 0; width: min(520px, calc(100% - 32px));
+  background: linear-gradient(180deg, #1a130d, var(--card)); color: var(--text); box-shadow: 0 30px 90px rgba(0,0,0,.6); }
+dialog.studio::backdrop { background: rgba(3,4,8,.72); backdrop-filter: blur(4px); }
+.studio-in { padding: 30px 22px 22px; text-align: center; }
+.studio-in > img { width: 92px; height: 92px; border-radius: 24px; box-shadow: 0 10px 40px rgba(255,138,61,.4); }
+.studio-in h2 { margin: 16px 0 4px; font-size: 30px; letter-spacing: -.02em; }
+.studio-in .kicker { color: #ff8a3d; font-size: 11.5px; font-weight: 700; letter-spacing: .14em; }
+.studio-in .about { color: var(--sub); line-height: 1.55; margin: 16px 0 6px; }
+.studio-in .proj { color: var(--dim); font-size: 13px; }
+.studio-in h3 { text-align: left; color: #ffc857; font-size: 12px; letter-spacing: .14em; margin: 26px 4px 10px; }
+.author { display: flex; align-items: center; gap: 14px; text-align: left; padding: 14px; border-radius: 18px;
+  background: var(--card2); border: 1px solid var(--line); margin-bottom: 10px; }
+.author .av { flex: none; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center;
+  font-weight: 800; font-size: 20px; color: #0a0e16; }
+.author b { display: block; font-size: 16.5px; }
+.author span { color: var(--sub); font-size: 14px; }
+.studio-close { margin-top: 18px; width: 100%; padding: 14px; border: 0; border-radius: 26px; font: inherit; font-weight: 700;
+  font-size: 16px; color: #1a120c; background: linear-gradient(90deg, #ff8a3d, #ffc857); cursor: pointer; }
 .tagline { margin: 18px 0 0; color: var(--sub); font-size: clamp(16px, 4.2vw, 19px); max-width: 640px; }
 .pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .pill {
@@ -159,10 +182,11 @@ footer a { color: var(--sub); }
 <body>
 
 <header class="hero wrap">
-  <div class="brand">
+  <div class="brand" id="brand" role="button" tabindex="0" aria-label="Sobre Forja Estudios">
     <img src="img/logo.svg" alt="">
-    <h1>Taller <span>Nocturno</span></h1>
+    <h1>Forja <span>Estudios</span></h1>
   </div>
+  <p class="authors-line" id="authors-line">Hecho por <b>santiagogd2513-cpu</b> · <b>Claude de Anthropic</b>&nbsp;›</p>
   <p class="tagline">Apps hechas a mano para Android y PC. Gratis, en español, en modo oscuro y <b>sin anuncios</b>.</p>
   <div class="pills">
     <span class="pill">🚫 Sin anuncios</span>
@@ -188,13 +212,39 @@ footer a { color: var(--sub); }
   </section>
 </div>
 
+<dialog class="studio" id="studio">
+  <div class="studio-in">
+    <img src="img/logo.svg" alt="">
+    <h2>Forja Estudios</h2>
+    <div class="kicker">ESTUDIO INDEPENDIENTE · COLOMBIA</div>
+    <p class="about">Hacemos apps para Android y mods para Minecraft desde cero: herramientas útiles, oscuras y livianas, sin anuncios.
+      Cada versión se prueba en un celular de verdad antes de salir, y cada error que aparece se busca hasta arreglarlo.</p>
+    <p class="proj">Bóveda · Nocturna · Yunque · Ventoy no oficial · Limbo para Bóveda · Arnis no oficial · Amatista Launcher · Arsenal Orbital · Arsenal Atómico</p>
+    <h3>AUTORES</h3>
+    <div class="author"><div class="av" style="background:linear-gradient(135deg,#3d8bff,#36d1ff)">S</div>
+      <div><b>santiagogd2513-cpu</b><span>Pruebas de cada actualización e identificación de errores</span></div></div>
+    <div class="author"><div class="av" style="background:linear-gradient(135deg,#d97757,#ffb38a)">C</div>
+      <div><b>Claude de Anthropic</b><span>Código y corrección de errores</span></div></div>
+    <button class="studio-close" id="studio-close">Cerrar</button>
+  </div>
+</dialog>
+
 <footer class="wrap">
-  Taller Nocturno · Hecho por santiagogd2513-cpu (idea, diseño y pruebas) y Claude de Anthropic (código).
+  <b>Forja Estudios</b> · santiagogd2513-cpu (pruebas de cada actualización e identificación de errores) y Claude de Anthropic (código y corrección de errores).
   <br>Los proyectos «no oficial» son adaptaciones de programas libres y no están afiliados a sus autores originales; cada tarjeta da los créditos.
   <br><a href="https://github.com/santiagogd2513-cpu">Ver en GitHub</a>
 </footer>
 
 <script>
+(() => {
+  const d = document.getElementById('studio');
+  const open = () => d.showModal ? d.showModal() : d.setAttribute('open', '');
+  document.getElementById('brand').onclick = open;
+  document.getElementById('brand').onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } };
+  document.getElementById('authors-line').onclick = open;
+  document.getElementById('studio-close').onclick = () => d.close();
+  d.onclick = e => { if (e.target === d) d.close(); };
+})();
 const GH = 'https://github.com/santiagogd2513-cpu/';
 const DL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14"/></svg>';
 
@@ -229,14 +279,14 @@ const APPS = {
     credit: 'Adaptación de <a href="https://www.ventoy.net">Ventoy</a> de longpanda (GPLv3).'
   },
   forja: {
-    name: 'Forja', icon: 'img/forja.svg', a1: '#ffc857', a2: '#ff3d6e',
+    name: 'Yunque', icon: 'img/forja.svg', a1: '#ffc857', a2: '#ff3d6e',
     platform: 'Android',
     desc: 'Formatea memorias USB y discos externos de 1 GB hasta 4 TB conectados al celular.',
     feat: ['FAT32, exFAT, NTFS y ext4', 'Tabla de particiones MBR o GPT', 'Tamaño de clúster a elección'],
-    repo: 'Minecraft', prefix: 'forja', tag: 'forja-5', date: '2026-11-08',
-    files: [{ name: 'Forja.apk', label: 'Descargar APK', size: 1172588 }],
+    repo: 'Minecraft', prefix: 'forja', tag: 'forja-10', date: '2026-11-09',
+    files: [{ name: 'Yunque.apk', label: 'Descargar APK', size: 1172588 }],
     src: 'Minecraft/tree/HEAD/forja',
-    credit: 'NTFS con mkntfs de <a href="https://github.com/tuxera/ntfs-3g">ntfs-3g</a> (GPLv2+).'
+    credit: 'Antes se llamaba Forja. NTFS con mkntfs de <a href="https://github.com/tuxera/ntfs-3g">ntfs-3g</a> (GPLv2+).'
   },
   boveda: {
     name: 'Bóveda', icon: 'img/boveda.svg', a1: '#7fd4ff', a2: '#3a6cf0',
