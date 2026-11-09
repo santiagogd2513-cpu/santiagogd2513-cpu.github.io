@@ -237,6 +237,32 @@ footer a { color: var(--sub); }
       <li>Las apps se actualizan instalando el APK nuevo encima: no pierdes nada.</li>
     </ol>
   </section>
+  <section class="help" id="help-mods" hidden>
+    <h2>⛏️ Cómo instalar los mods (Forge)</h2>
+    <ol>
+      <li>Necesitas <b>Minecraft Java Edition</b>. En el launcher oficial, juega una vez la versión <b>1.20.1</b> para que se descargue.</li>
+      <li>Descarga el instalador de <b>Forge 1.20.1</b> (versión 47) desde <a href="https://files.minecraftforge.net/net/minecraftforge/forge/index_1.20.1.html">files.minecraftforge.net</a>: toca <b>Installer</b>. La página muestra un anuncio: espera unos segundos y toca <b>Skip</b> arriba a la derecha.</li>
+      <li>Abre el instalador, elige <b>Install client</b> y toca <b>OK</b>.</li>
+      <li>En el launcher aparece el perfil <b>forge</b>: ábrelo una vez y cierra el juego (así se crea la carpeta <b>mods</b>).</li>
+      <li>Descarga el <b>.jar</b> del mod aquí arriba y cópialo en la carpeta <b>mods</b>:<br>
+        Windows: tecla <b>Windows + R</b> → escribe <b>%appdata%\.minecraft\mods</b> → Enter.<br>
+        Linux: <b>~/.minecraft/mods</b> · Mac: <b>~/Library/Application Support/minecraft/mods</b></li>
+      <li>Abre Minecraft con el perfil <b>forge</b>. En el menú, <b>Mods</b> muestra el mod instalado. ¡A jugar!</li>
+      <li>En el celular: con un launcher de Java como <b>PojavLauncher</b>, instala Forge 1.20.1 desde el launcher y copia el .jar en su carpeta <b>mods</b>.</li>
+    </ol>
+  </section>
+  <section class="help" id="help-bedrock" hidden>
+    <h2>🧱 Cómo instalar addons y paquetes de recursos</h2>
+    <ol>
+      <li>Descarga el addon (<b>.mcaddon</b>) o el paquete (<b>.mcpack</b>).</li>
+      <li>Tócalo: Minecraft se abre solo y dice <b>«Importación correcta»</b>.</li>
+      <li>Crea o edita un mundo y entra en <b>Paquetes de comportamiento</b> o <b>Paquetes de recursos</b>.</li>
+      <li>Busca el que importaste y toca <b>Activar</b>.</li>
+      <li>Si el addon lo pide, activa los <b>Experimentos</b> en la configuración del mundo.</li>
+      <li>Entra al mundo y disfruta.</li>
+      <li>Y cuando salgan nuestros mods para Bedrock, los instalas igualito. 😎</li>
+    </ol>
+  </section>
 </div>
 
 <dialog class="studio" id="studio">
@@ -446,6 +472,10 @@ const links = [...barra.querySelectorAll('a')];
 function mostrar(id, alTocar) {
   if (!CATS.some(c => c.id === id)) id = CATS[0].id;
   document.querySelectorAll('section.cat').forEach(s => s.classList.toggle('on', s.id === id));
+  // cada pestaña con su tutorial: mods de Java, Bedrock o cómo instalar un APK
+  document.getElementById('help-mods').hidden = id !== 'mods';
+  document.getElementById('help-bedrock').hidden = id !== 'bedrock';
+  document.getElementById('instalar').hidden = id === 'mods' || id === 'bedrock';
   links.forEach(l => {
     const on = l.getAttribute('href') === '#' + id;
     l.classList.toggle('on', on);
