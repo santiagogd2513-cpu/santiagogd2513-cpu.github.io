@@ -171,6 +171,8 @@ ul.feat li::before {
 }
 .meta { margin-top: auto; font-size: 13px; color: var(--dim); display: flex; flex-wrap: wrap; gap: 4px 12px; }
 .meta b { color: var(--sub); font-weight: 600; }
+.meta .dls { color: var(--c, #ffc23d); font-weight: 600; }
+.meta .dls b { color: inherit; }
 .dl { display: grid; gap: 8px; margin-top: 12px; }
 .dl.multi { grid-template-columns: 1fr 1fr; }
 .dl.multi .btn:first-child { grid-column: 1 / -1; }
@@ -390,16 +392,16 @@ const APPS = {
     platform: 'Mod · Forge 1.20.1', reqs: ['MINECRAFT 1.20.1', 'FORGE 47'],
     desc: 'Armas del espacio: un satélite, una luna de Marte, un agujero negro, una estrella hipergigante y la creación de una estrella nueva, todo sobre tu objetivo.',
     feat: ['ÉGIDA-7, Fobos, Singularidad, Prometeo y Génesis', 'Cinemáticas de hasta 5 minutos por el universo', 'El Designador está escondido en búnkeres bajo tierra'],
-    repo: 'Minecraft', prefix: 'mod-arsenal', tag: 'mod-arsenal-27', date: '2026-11-09',
+    repo: 'Minecraft', prefix: 'mod-arsenal', tag: 'mod-arsenal-27', date: '2026-11-09', count: true,
     files: [{ name: 'ArsenalOrbital-1.20.1.jar', label: 'Descargar .jar', size: 600000 }],
     src: 'Minecraft/tree/HEAD/mods/arsenal-orbital'
   },
   atomico: {
     name: 'Arsenal Atómico', icon: 'img/atomico.svg', a1: '#ffc23d', a2: '#ff5a2e',
     platform: 'Mod · Forge 1.20.1', reqs: ['MINECRAFT 1.20.1', 'FORGE 47'],
-    desc: 'Misiles de verdad: camiones lanzacohetes, submarinos, silos y la primera bomba nuclear, con su búnker gigante que se construye solo.',
-    feat: ['Lluvia de Acero, Cóndor Doble y Cóndor', 'Protocolo Hongo: hongo nuclear y cráter de 46 bloques', 'Búnker caminable: caseta, caracol y cuarto de control'],
-    repo: 'Minecraft', prefix: 'mod-atomico', tag: 'mod-atomico-11', date: '2026-11-09',
+    desc: 'Misiles de verdad: camiones lanzacohetes, submarinos, silos y dos bombas nucleares. Con la termonuclear, un camión militar te lleva a la base y tú mismo oprimes el botón.',
+    feat: ['Lluvia de Acero, Cóndor Doble y Cóndor', 'Protocolo Hongo: hongo nuclear y cráter de 46 bloques', 'Protocolo Sol Negro: camión, base caminable y botón rojo'],
+    repo: 'Minecraft', prefix: 'mod-atomico', tag: 'mod-atomico-14', date: '2026-11-09', count: true,
     files: [{ name: 'ArsenalAtomico-1.20.1.jar', label: 'Descargar .jar', size: 590710 }],
     src: 'Minecraft/tree/HEAD/mods/arsenal-atomico'
   },
@@ -503,12 +505,18 @@ mostrar(location.hash.slice(1), false);
 async function actualizar() {
   const repos = [...new Set(Object.values(APPS).map(a => a.repo))];
   for (const repo of repos) {
-    let lista;
-    try {
-      const r = await fetch(`https://api.github.com/repos/santiagogd2513-cpu/${repo}/releases?per_page=100`);
-      if (!r.ok) continue;
-      lista = await r.json();
-    } catch (e) { continue; }
+    // todas las páginas: los contadores de descargas suman todas las versiones publicadas
+    let lista = [];
+    for (let pag = 1; pag <= 8; pag++) {
+      try {
+        const r = await fetch(`https://api.github.com/repos/santiagogd2513-cpu/${repo}/releases?per_page=100&page=${pag}`);
+        if (!r.ok) break;
+        const parte = await r.json();
+        lista = lista.concat(parte);
+        if (parte.length < 100) break;
+      } catch (e) { break; }
+    }
+    if (!lista.length) continue;
     const ultima = prefix => {
       let mejor = null;
       for (const rel of lista) {
@@ -521,8 +529,18 @@ async function actualizar() {
       if (a.repo !== repo) continue;
       const principal = ultima(a.prefix);
       if (principal) {
+        // contador propio de descargas (solo GitHub): suma todas las versiones del mod
+        let total = 0;
+        if (a.count) {
+          const re = new RegExp('^' + a.prefix + '-\\d+$');
+          for (const rel of lista) {
+            if (rel.draft || !re.test(rel.tag_name)) continue;
+            for (const x of rel.assets) total += x.download_count || 0;
+          }
+        }
         document.getElementById('meta-' + id).innerHTML =
-          `<span>Versión <b>#${numero(principal.tag_name)}</b></span><span>${fecha(principal.published_at)}</span>`;
+          `<span>Versión <b>#${numero(principal.tag_name)}</b></span><span>${fecha(principal.published_at)}</span>`
+          + (a.count ? `<span class="dls">⬇ <b>${total.toLocaleString('es-CO')}</b> ${total === 1 ? 'descarga' : 'descargas'}</span>` : '');
       }
       a.files.forEach((f, i) => {
         const rel = f.prefix ? ultima(f.prefix) : principal;
