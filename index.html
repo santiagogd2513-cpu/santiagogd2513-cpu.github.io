@@ -188,6 +188,32 @@ ul.feat li::before {
 .btn small { font-weight: 600; opacity: .7; font-size: 12.5px; }
 .btn.alt { color: var(--text); background: rgba(255,255,255,.06); border: 1px solid var(--line); font-size: 14.5px; gap: 6px; padding: 10px; white-space: nowrap; }
 .btn svg { width: 18px; height: 18px; flex: none; }
+.rate { margin-top: 12px; display: flex; justify-content: flex-start; }
+.rate-btn { font: inherit; font-weight: 700; font-size: 16px; padding: 13px 24px; border-radius: 16px; cursor: pointer; color: var(--text);
+  background: rgba(255,255,255,.06); border: 1.5px solid color-mix(in srgb, var(--a1, #ffc857) 55%, var(--line)); display: inline-flex; align-items: center; gap: 8px; }
+.rate-btn:hover { background: color-mix(in srgb, var(--a1, #ffc857) 14%, transparent); }
+.rate-btn:active { transform: scale(.98); }
+.card.flash { animation: flash 1.6s ease-out 2; }
+@keyframes flash { 0% { box-shadow: 0 0 0 0 var(--a1, #ffc857); } 70% { box-shadow: 0 0 0 16px transparent; } 100% { box-shadow: none; } }
+.opt { display: flex; align-items: center; gap: 14px; text-align: left; padding: 16px; border-radius: 18px; background: rgba(255,255,255,.05);
+  border: 1px solid var(--line); color: var(--text); font: inherit; width: 100%; cursor: pointer; margin-bottom: 10px; }
+.opt .em { font-size: 26px; width: 44px; text-align: center; flex: none; }
+.opt b { display: block; font-size: 17px; }
+.opt small { color: var(--sub); font-size: 13.5px; }
+.opt.off { opacity: .55; cursor: default; }
+.studio-back { background: none; border: 0; color: #ff8a3d; font: inherit; font-weight: 700; cursor: pointer; margin-top: 12px; }
+dialog.rating { border: 1px solid var(--line); border-radius: 22px; padding: 0; width: min(440px, calc(100% - 32px));
+  background: var(--card); color: var(--text); box-shadow: 0 30px 90px rgba(0,0,0,.6); }
+dialog.rating::backdrop { background: rgba(3,4,8,.72); backdrop-filter: blur(4px); }
+.rating-in { padding: 24px 20px 20px; text-align: center; }
+.rating-in h2 { margin: 0 0 4px; font-size: 22px; }
+.stars { display: flex; justify-content: center; gap: 6px; margin: 14px 0; }
+.stars button { font-size: 38px; line-height: 1; background: none; border: 0; cursor: pointer; color: #3b4259; padding: 2px 4px; }
+.stars button.on { color: #ffc857; }
+.rating-in textarea { width: 100%; min-height: 84px; resize: vertical; border-radius: 14px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font: inherit; padding: 10px 12px; }
+.rating-in .note { color: var(--dim); font-size: 12.5px; margin: 10px 2px 14px; text-align: left; }
+.rating-send { width: 100%; padding: 14px; border: 0; border-radius: 26px; font: inherit; font-weight: 800; cursor: pointer; background: linear-gradient(90deg,#ff8a3d,#ffc857); color: #1a120c; }
+.rating-send:disabled { opacity: .45; cursor: default; }
 .foot { margin-top: 12px; font-size: 12.5px; color: var(--dim); }
 .foot a { color: var(--sub); }
 
@@ -273,6 +299,12 @@ footer a { color: var(--sub); }
     <img src="img/logo.svg" alt="">
     <h2>Forja Estudios</h2>
     <div class="kicker">ESTUDIO INDEPENDIENTE · COLOMBIA</div>
+    <div id="studio-menu" style="margin-top:22px">
+      <div class="opt off"><span class="em">📬</span><span><b>Contáctanos</b><small>Muy pronto</small></span></div>
+      <button class="opt" id="studio-rate" type="button"><span class="em">⭐</span><span><b>Calificar apps</b><small>Elige una app y dale tus estrellas</small></span></button>
+      <button class="opt" id="studio-about" type="button"><span class="em">ℹ️</span><span><b>Acerca del estudio</b><small>Quiénes somos y qué hacemos</small></span></button>
+    </div>
+    <div id="studio-info" hidden>
     <p class="about">Hacemos apps para Android y mods para Minecraft desde cero: herramientas útiles, oscuras y livianas, sin anuncios.
       Cada versión se prueba en un celular de verdad antes de salir, y cada error que aparece se busca hasta arreglarlo.</p>
     <p class="proj">Bóveda · Nocturna · Yunque · Ventoy no oficial · Limbo para Bóveda · Arnis no oficial · Amatista Launcher · Arsenal Orbital · Arsenal Atómico</p>
@@ -281,7 +313,21 @@ footer a { color: var(--sub); }
       <div><b>santiagogd2513-cpu</b><span>Pruebas de cada actualización e identificación de errores</span></div></div>
     <div class="author"><div class="av" style="background:linear-gradient(135deg,#d97757,#ffb38a)">C</div>
       <div><b>Claude de Anthropic</b><span>Código y corrección de errores</span></div></div>
+    <button class="studio-back" id="studio-back" type="button">‹ Volver</button>
+    </div>
     <button class="studio-close" id="studio-close">Cerrar</button>
+  </div>
+</dialog>
+
+<dialog class="rating" id="rating">
+  <div class="rating-in">
+    <h2 id="rating-title">Calificar</h2>
+    <div class="kicker" style="color:var(--sub);font-size:14px">¿Cuántas estrellas le das?</div>
+    <div class="stars" id="stars"><button type="button" data-n="1" aria-label="1 estrellas">★</button><button type="button" data-n="2" aria-label="2 estrellas">★</button><button type="button" data-n="3" aria-label="3 estrellas">★</button><button type="button" data-n="4" aria-label="4 estrellas">★</button><button type="button" data-n="5" aria-label="5 estrellas">★</button></div>
+    <textarea id="rating-text" placeholder="Cuéntanos qué te gustó o qué mejorarías (opcional)"></textarea>
+    <p class="note">Al enviar se abre GitHub con tu calificación ya escrita; hace falta una cuenta de GitHub para publicarla. Será pública, así que no pongas datos personales.</p>
+    <button class="rating-send" id="rating-send" type="button" disabled>Enviar calificación</button>
+    <button class="studio-back" id="rating-close" type="button">Cancelar</button>
   </div>
 </dialog>
 
@@ -294,7 +340,11 @@ footer a { color: var(--sub); }
 <script>
 (() => {
   const d = document.getElementById('studio');
-  const open = () => d.showModal ? d.showModal() : d.setAttribute('open', '');
+  const menu = document.getElementById('studio-menu'), info = document.getElementById('studio-info');
+  const open = () => { menu.hidden = false; info.hidden = true; d.showModal ? d.showModal() : d.setAttribute('open', ''); };
+  document.getElementById('studio-about').onclick = () => { menu.hidden = true; info.hidden = false; };
+  document.getElementById('studio-back').onclick = () => { menu.hidden = false; info.hidden = true; };
+  document.getElementById('studio-rate').onclick = () => { d.close(); document.getElementById('main').scrollIntoView({ behavior: 'smooth' }); };
   document.getElementById('brand').onclick = open;
   document.getElementById('brand').onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } };
   document.getElementById('authors-line').onclick = open;
@@ -307,7 +357,7 @@ const DL_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 const CATS = [
   { id: 'utilidades', icon: '🛠️', name: 'Utilidades', color: '#ff8a3d',
     desc: 'Herramientas para memorias USB y discos, directo desde el celular por OTG.',
-    apps: ['ventoy', 'forja'] },
+    apps: ['ventoy', 'forja', 'arca'] },
   { id: 'archivos', icon: '📁', name: 'Archivos e internet', color: '#4c9dff',
     desc: 'Para el día a día: manejar tus archivos y navegar.',
     apps: ['boveda', 'nocturna'] },
@@ -348,6 +398,16 @@ const APPS = {
     files: [{ name: 'Yunque.apk', label: 'Descargar APK', size: 1172588 }],
     src: 'Minecraft/tree/HEAD/forja',
     credit: 'Antes se llamaba Forja. NTFS con mkntfs de <a href="https://github.com/tuxera/ntfs-3g">ntfs-3g</a> (GPLv2+).'
+  },
+  arca: {
+    name: 'Arca', icon: 'img/arca.svg', a1: '#4ade6b', a2: '#1f7a45',
+    platform: 'Android',
+    desc: 'Mira desde el celular lo que hay en la memoria USB o el disco duro de tu Xbox 360, con el nombre y el ícono de cada juego.',
+    feat: ['Juegos, partidas y perfiles con su nombre e ícono', 'Verifica paquetes y revisa su firma', 'Copias de seguridad y editor de partidas en el celular'],
+    repo: 'Minecraft', prefix: 'arca', tag: 'arca-11', date: '2026-11-12',
+    files: [{ name: 'Arca.apk', label: 'Descargar APK', size: 264329 }],
+    src: 'Minecraft/tree/HEAD/arca',
+    credit: 'Inspirada en Horizon; es una herramienta independiente, sin relación con Microsoft.'
   },
   boveda: {
     name: 'Bóveda', icon: 'img/boveda.svg', a1: '#7fd4ff', a2: '#3a6cf0',
@@ -432,7 +492,7 @@ function tarjeta(id) {
   const btns = a.files.map((f, i) =>
     `<a class="btn${i ? ' alt' : ''}" data-app="${id}" data-file="${i}" href="${url(a, f)}">${DL_ICON}<span>${f.label}</span><small class="sz">${peso(f.size)}</small></a>`
   ).join('');
-  return `<article class="card" style="--a1:${a.a1};--a2:${a.a2}">
+  return `<article class="card" id="card-${id}" style="--a1:${a.a1};--a2:${a.a2}">
     <div class="top">
       <img src="${a.icon}" alt="" loading="lazy">
       <div>
@@ -446,8 +506,9 @@ function tarjeta(id) {
     ${a.reqs ? `<div class="reqs">${a.reqs.map(x => `<span>${x}</span>`).join('')}</div>` : ''}
     <p class="desc">${a.desc}</p>
     <ul class="feat">${a.feat.map(x => `<li>${x}</li>`).join('')}</ul>
-    <div class="meta" id="meta-${id}"><span>Versión <b>#${numero(a.tag)}</b></span><span>${fecha(a.date)}</span></div>
+    <div class="meta" id="meta-${id}"><span>Versión <b>#${numero(a.tag)}</b></span><span>${fecha(a.date)}</span><span class="dls">⬇ <b>…</b> descargas</span></div>
     <div class="dl${a.files.length > 1 ? ' multi' : ''}">${btns}</div>
+    <div class="rate"><button class="rate-btn" type="button" data-rate="${id}">⭐ Calificar</button></div>
     <div class="foot">${a.credit ? a.credit + ' · ' : ''}<a href="${GH}${a.src}">Código fuente</a></div>
   </article>`;
 }
@@ -498,8 +559,50 @@ links.forEach(l => l.addEventListener('click', e => {
   history.replaceState(null, '', '#' + id);
   mostrar(id, true);
 }));
-addEventListener('hashchange', () => mostrar(location.hash.slice(1), true));
-mostrar(location.hash.slice(1), false);
+
+// ---- calificar: estrellas + comentario, que se envía como una calificación pública en GitHub
+(() => {
+  const dlg = document.getElementById('rating'), send = document.getElementById('rating-send');
+  const stars = [...document.querySelectorAll('#stars button')], text = document.getElementById('rating-text');
+  let appId = null, n = 0;
+  const pintar = v => stars.forEach((b, i) => b.classList.toggle('on', i < v));
+  stars.forEach((b, i) => { b.onclick = () => { n = i + 1; pintar(n); send.disabled = false; }; });
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-rate]');
+    if (!b) return;
+    appId = b.dataset.rate; n = 0; pintar(0); text.value = ''; send.disabled = true;
+    document.getElementById('rating-title').textContent = 'Calificar ' + APPS[appId].name;
+    dlg.showModal ? dlg.showModal() : dlg.setAttribute('open', '');
+  });
+  document.getElementById('rating-close').onclick = () => dlg.close();
+  dlg.onclick = e => { if (e.target === dlg) dlg.close(); };
+  send.onclick = () => {
+    const a = APPS[appId];
+    const ver = '#' + numero(a.tag);
+    const titulo = `⭐ ${n}/5 · ${a.name}`;
+    const cuerpo = `**Calificación:** ${'⭐'.repeat(n)} (${n} de 5)\n**App:** ${a.name}\n**Versión de la página:** ${ver}\n\n**Comentario:**\n${text.value.trim() || '(sin comentario)'}\n`;
+    const u = `${GH}${a.repo}/issues/new?labels=${encodeURIComponent('calificación')}&title=${encodeURIComponent(titulo)}&body=${encodeURIComponent(cuerpo)}`;
+    window.open(u, '_blank', 'noopener');
+    dlg.close();
+  };
+})();
+
+// enlaces directos a una app: #app-arca abre su pestaña y la resalta
+function irAApp(hash) {
+  const id = hash.replace(/^app-/, '');
+  const cat = CATS.find(c => c.apps.includes(id));
+  if (!cat) return false;
+  mostrar(cat.id, false);
+  requestAnimationFrame(() => {
+    const el = document.getElementById('card-' + id);
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
+  });
+  return true;
+}
+addEventListener('hashchange', () => { const h = location.hash.slice(1); if (!(h.startsWith('app-') && irAApp(h))) mostrar(h, true); });
+{ const h = location.hash.slice(1); if (!(h.startsWith('app-') && irAApp(h))) mostrar(h, false); }
 
 // pone al día versión, fecha, tamaño y enlace con la última publicación de cada app
 async function actualizar() {
@@ -529,18 +632,16 @@ async function actualizar() {
       if (a.repo !== repo) continue;
       const principal = ultima(a.prefix);
       if (principal) {
-        // contador propio de descargas (solo GitHub): suma todas las versiones del mod
+        // contador propio de descargas (solo GitHub): suma todas las versiones de la app (y de cada archivo propio)
         let total = 0;
-        if (a.count) {
-          const re = new RegExp('^' + a.prefix + '-\\d+$');
-          for (const rel of lista) {
-            if (rel.draft || !re.test(rel.tag_name)) continue;
-            for (const x of rel.assets) total += x.download_count || 0;
-          }
+        const prefijos = [...new Set([a.prefix, ...a.files.filter(f => f.prefix).map(f => f.prefix)])];
+        for (const rel of lista) {
+          if (rel.draft || !prefijos.some(p => new RegExp('^' + p + '-\\d+$').test(rel.tag_name))) continue;
+          for (const x of rel.assets) if (!/\.(txt|md)$/i.test(x.name)) total += x.download_count || 0;
         }
         document.getElementById('meta-' + id).innerHTML =
           `<span>Versión <b>#${numero(principal.tag_name)}</b></span><span>${fecha(principal.published_at)}</span>`
-          + (a.count ? `<span class="dls">⬇ <b>${total.toLocaleString('es-CO')}</b> ${total === 1 ? 'descarga' : 'descargas'}</span>` : '');
+          + `<span class="dls">⬇ <b>${total.toLocaleString('es-CO')}</b> ${total === 1 ? 'descarga' : 'descargas'}</span>`;
       }
       a.files.forEach((f, i) => {
         const rel = f.prefix ? ultima(f.prefix) : principal;
